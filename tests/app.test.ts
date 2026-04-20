@@ -1,0 +1,39 @@
+import { describe, it, expect } from 'vitest';
+import request from 'supertest';
+import app from '../src/app';
+
+describe('API Endpoints', () => {
+  it('GET /health should return 200 OK', async () => {
+    const res = await request(app).get('/health');
+    expect(res.status).toBe(200);
+    expect(res.body.status).toBe('ok');
+  });
+
+  it('GET /api/tasks should return list of tasks', async () => {
+    const res = await request(app).get('/api/tasks');
+    expect(res.status).toBe(200);
+    expect(Array.isArray(res.body)).toBe(true);
+    expect(res.body.length).toBeGreaterThan(0);
+  });
+
+  it('POST /api/tasks should create a new task', async () => {
+    const newTask = { title: 'Test auto review', completed: false };
+    const res = await request(app)
+      .post('/api/tasks')
+      .send(newTask);
+    
+    expect(res.status).toBe(201);
+    expect(res.body.title).toBe(newTask.title);
+    expect(res.body.id).toBeDefined();
+  });
+
+  it('POST /api/tasks should fail with invalid data', async () => {
+    const invalidTask = { title: '', completed: 'not-a-boolean' };
+    const res = await request(app)
+      .post('/api/tasks')
+      .send(invalidTask);
+    
+    expect(res.status).toBe(400);
+    expect(res.body.errors).toBeDefined();
+  });
+});
