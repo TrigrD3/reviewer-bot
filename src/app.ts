@@ -31,6 +31,7 @@ app.get('/', (req, res) => {
           <h1>Reviewer Bot Test App 🚀</h1>
           <p>The simple web application for testing OpenClaw auto PR reviews is running!</p>
           <p><strong>New Feature:</strong> Tasks now support priority levels (low, medium, high)!</p>
+          <p><strong>Upcoming Feature:</strong> Clear all completed tasks via API!</p>
           <div class="links">
             <a href="/health" target="_blank">Health Check</a>
             <a href="/api/tasks" target="_blank">View Tasks (API)</a>

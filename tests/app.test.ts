@@ -56,4 +56,13 @@ describe('API Endpoints', () => {
     expect(res.status).toBe(400);
     expect(res.body.errors).toBeDefined();
   });
+
+  it('DELETE /api/tasks/completed should remove all completed tasks', async () => {
+    // Current state: 2 tasks, 1 completed (from initial tasks)
+    const res = await request(app).delete('/api/tasks/completed');
+    expect(res.status).toBe(204);
+
+    const getRes = await request(app).get('/api/tasks');
+    expect(getRes.body.every((task: any) => !task.completed)).toBe(true);
+  });
 });
