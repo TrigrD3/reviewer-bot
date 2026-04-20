@@ -7,17 +7,19 @@ interface Task {
   id: number;
   title: string;
   completed: boolean;
+  priority: 'low' | 'medium' | 'high';
 }
 
 // In-memory "database"
 let tasks: Task[] = [
-  { id: 1, title: 'Learn OpenClaw', completed: false },
-  { id: 2, title: 'Create test repo', completed: true },
+  { id: 1, title: 'Learn OpenClaw', completed: false, priority: 'high' },
+  { id: 2, title: 'Create test repo', completed: true, priority: 'medium' },
 ];
 
 const taskSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   completed: z.boolean().optional().default(false),
+  priority: z.enum(['low', 'medium', 'high']).optional().default('medium'),
 });
 
 // GET /api/tasks
@@ -37,6 +39,7 @@ router.post('/', (req: Request, res: Response) => {
     id: tasks.length + 1,
     title: result.data.title,
     completed: result.data.completed,
+    priority: result.data.priority,
   };
 
   tasks.push(newTask);
