@@ -65,4 +65,11 @@ describe('API Endpoints', () => {
     const getRes = await request(app).get('/api/tasks');
     expect(getRes.body.every((task: any) => !task.completed)).toBe(true);
   });
+
+  it('GET /api/tasks/summary should return task statistics', async () => {
+    const res = await request(app).get('/api/tasks/summary');
+    expect(res.status).toBe(200);
+    expect(res.body.total).toBeDefined();
+    expect(res.body.byPriority).toBeDefined();
+  });
 });
