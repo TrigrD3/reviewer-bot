@@ -16,7 +16,7 @@ describe('API Endpoints', () => {
     expect(res.body.length).toBeGreaterThan(0);
   });
 
-  it('POST /api/tasks should create a new task', async () => {
+  it('POST /api/tasks should create a new task with default priority', async () => {
     const newTask = { title: 'Test auto review', completed: false };
     const res = await request(app)
       .post('/api/tasks')
@@ -24,7 +24,27 @@ describe('API Endpoints', () => {
     
     expect(res.status).toBe(201);
     expect(res.body.title).toBe(newTask.title);
+    expect(res.body.priority).toBe('medium');
     expect(res.body.id).toBeDefined();
+  });
+
+  it('POST /api/tasks should create a new task with specific priority', async () => {
+    const newTask = { title: 'High priority task', completed: false, priority: 'high' };
+    const res = await request(app)
+      .post('/api/tasks')
+      .send(newTask);
+    
+    expect(res.status).toBe(201);
+    expect(res.body.priority).toBe('high');
+  });
+
+  it('POST /api/tasks should fail with invalid priority', async () => {
+    const invalidTask = { title: 'Invalid priority', priority: 'very-high' };
+    const res = await request(app)
+      .post('/api/tasks')
+      .send(invalidTask);
+    
+    expect(res.status).toBe(400);
   });
 
   it('POST /api/tasks should fail with invalid data', async () => {
