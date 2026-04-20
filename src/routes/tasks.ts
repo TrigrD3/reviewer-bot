@@ -46,4 +46,10 @@ router.post('/', (req: Request, res: Response) => {
   res.status(201).json(newTask);
 });
 
+// DELETE /api/tasks/completed
+router.delete('/completed', (req: Request, res: Response) => {
+  tasks = tasks.filter(task => !task.completed);
+  res.status(204).end();
+});
+
 export default router;
