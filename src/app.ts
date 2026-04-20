@@ -35,6 +35,7 @@ app.get('/', (req, res) => {
           <div class="links">
             <a href="/health" target="_blank">Health Check</a>
             <a href="/api/tasks" target="_blank">View Tasks (API)</a>
+            <a href="/api/tasks/summary" target="_blank">View Summary (API)</a>
           </div>
         </div>
       </body>

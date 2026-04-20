@@ -27,6 +27,21 @@ router.get('/', (req: Request, res: Response) => {
   res.json(tasks);
 });
 
+// GET /api/tasks/summary
+router.get('/summary', (req: Request, res: Response) => {
+  const summary = {
+    total: tasks.length,
+    completed: tasks.filter(t => t.completed).length,
+    pending: tasks.filter(t => !t.completed).length,
+    byPriority: {
+      high: tasks.filter(t => t.priority === 'high').length,
+      medium: tasks.filter(t => t.priority === 'medium').length,
+      low: tasks.filter(t => t.priority === 'low').length,
+    }
+  };
+  res.json(summary);
+});
+
 // POST /api/tasks
 router.post('/', (req: Request, res: Response) => {
   const result = taskSchema.safeParse(req.body);
